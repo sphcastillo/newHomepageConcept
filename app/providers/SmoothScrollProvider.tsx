@@ -78,11 +78,11 @@ export default function SmoothScrollProvider({
     <>
       {children}
       {/* Add a global ready state indicator */}
-      {isReady && (
+      {/* {isReady && (
         <div className="fixed bottom-4 left-4 z-50 bg-green-500 text-white px-3 py-1 rounded text-sm">
           Scroll Ready
         </div>
-      )}
+      )} */}
     </>
   );
 }

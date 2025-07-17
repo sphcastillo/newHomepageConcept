@@ -54,7 +54,7 @@ function AnimatedText({ children, index }: { children: React.ReactNode; index: n
             start: "0px bottom",
             end: "bottom+=400px bottom",
             scroller: "[data-scroll-container]",
-            markers: true,
+            // markers: true,
             id: `description-text-${index}`,
           },
           opacity: 0,

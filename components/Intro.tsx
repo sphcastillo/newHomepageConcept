@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
-import verticalCarousel from "@/images/newVerticalGlitz.jpg";
+import verticalCarousel from "@/images/breannaCarouselCreator.jpg";
 import horizontalCarousel from "@/images/carouselbathtubLuna.jpg";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -50,7 +50,7 @@ function Intro() {
           start: "top",
           end: "+=500px",
           scroller: "[data-scroll-container]",
-          markers: true,
+          // markers: true,
           id: "intro-animation",
         },
       });
@@ -58,7 +58,7 @@ function Intro() {
       timeline
         .from(background.current, { clipPath: `inset(15%)` })
         .to(introImage.current, { height: "200px" }, 0)
-        .from(heading.current, { opacity: 0, y: 100 }, 0);
+        .from(heading.current, { opacity: 0, y: 250 }, 0);
 
       console.log("GSAP timeline steps added for Intro");
 
@@ -86,7 +86,7 @@ function Intro() {
   return (
     <section ref={mySection} className="w-full flex justify-center relative">
       {/* Temporary debug button */}
-      <button 
+      {/* <button 
         onClick={() => {
           console.log("Manual ScrollTrigger refresh");
           ScrollTrigger.refresh();
@@ -100,10 +100,10 @@ function Intro() {
         className="fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-2 rounded"
       >
         Refresh ScrollTrigger
-      </button>
+      </button> */}
       
       {/* Debug info button */}
-      <button 
+      {/* <button 
         onClick={() => {
           console.log("ScrollTrigger instances:", ScrollTrigger.getAll());
           console.log("GSAP tweens:", gsap.globalTimeline.getChildren());
@@ -111,10 +111,10 @@ function Intro() {
         className="fixed top-4 right-48 z-50 bg-blue-500 text-white px-4 py-2 rounded"
       >
         Debug Info
-      </button>
+      </button> */}
       
       {/* Global cleanup button */}
-      <button 
+      {/* <button 
         onClick={() => {
           console.log("Killing all ScrollTrigger instances");
           ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -126,15 +126,15 @@ function Intro() {
         className="fixed top-4 right-80 z-50 bg-orange-500 text-white px-4 py-2 rounded"
       >
         Reset All
-      </button>
+      </button> */}
       
       {/* Animation status indicator */}
-      <div 
+      {/* <div 
         className="fixed top-16 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded"
         style={{ backgroundColor: 'green' }}
       >
         Animation Active
-      </div>
+      </div> */}
       
       <div
         ref={background}
@@ -150,10 +150,10 @@ function Intro() {
         />
       </div>
 
-      <div className="flex justify-center relative mt-[35vh]">
+      <div className="flex justify-center relative mt-[45vh]">
         <div
           ref={introImage}
-          className="absolute h-[475px] w-[350px] filter brightness-[.95]"
+          className="absolute h-[425px] w-[300px] filter brightness-[.95]"
         >
           <Image
             src={verticalCarousel}
