@@ -10,9 +10,9 @@ export default function Homepage() {
       <section className="bg-[linear-gradient(to_top,_#ff9a9e_0%,_#fecfef_99%,_#fecfef_100%)]">
         <Intro />
         <Description />
-        <div className="mt-[5vh] mb-[40vh]">
-          {/* <Description /> */}
+        <div className="mt-[5vh] mb-[60vh]">
         </div>
+        <Projects />
       </section>
     </div>
   );
