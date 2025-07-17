@@ -25,17 +25,47 @@ const projects = [
 
 function Projects() {
   const [selectedProject, setSelectedProject] = useState(0);
-  const container = useRef(null);
-  const imageContainer = useRef(null);
+  const container = useRef<HTMLDivElement | null>(null);
+  const imageContainer = useRef<HTMLDivElement | null>(null);
+  const projectsList = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+    
+    if (!imageContainer.current || !projectsList.current) return;
+
+    // Create a timeline for the scroll animation
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: projectsList.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+        pin: false,
+        onUpdate: (self) => {
+          // Calculate which project should be visible based on scroll progress
+          const progress = self.progress;
+          const projectIndex = Math.floor(progress * (projects.length - 1));
+          const clampedIndex = Math.min(Math.max(projectIndex, 0), projects.length - 1);
+          
+          if (clampedIndex !== selectedProject) {
+            setSelectedProject(clampedIndex);
+          }
+        }
+      }
+    });
+
+    // Pin the image container separately
     ScrollTrigger.create({
       trigger: imageContainer.current,
       pin: true,
       start: "top-=100px",
-      end: document.body.offsetHeight - window.innerHeight - 50,
+      end: "+=300%",
     });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   return (
@@ -48,20 +78,24 @@ function Projects() {
         {/* Image */}
         <div
           ref={imageContainer}
-          className="w-[40%] h-[500px] relative shrink-0"
+          className="w-[40%] h-[500px] relative shrink-0 overflow-hidden"
         >
           <Image
             src={projects[selectedProject].src}
             alt="project image"
+            fill
             priority
-            className="object-cover w-full h-full"
+            className="object-cover transition-all duration-700 ease-out"
+            style={{
+              transform: `translateY(${selectedProject * -30}px) scale(1.05)`
+            }}
           />
         </div>
 
         {/* Text Columns */}
         <div className="flex h-[500px] w-[20%]  items-start">
           <p className="text-[1.6vw] font-bold text-white">
-            Welcome to Carousel Hair Extensions— whether you’re
+            Welcome to Carousel Hair Extensions— whether you're
             adding length and volume to your hair or exploring our stylish
             collection of tees and hoodies, this is your destination for all
             things beauty.
@@ -77,12 +111,14 @@ function Projects() {
       </div>
 
       {/* Project List Below */}
-      <div className="flex flex-col relative mt-[200px]">
+      <div ref={projectsList} className="flex flex-col relative mt-[200px]">
         {projects.map((project, index) => (
           <div
             key={index}
             onMouseOver={() => setSelectedProject(index)}
-            className="w-full text-white flex justify-end border-b border-white uppercase text-[3vw]"
+            className={`w-full text-white flex justify-end border-b border-white uppercase text-[3vw] transition-all duration-500 ${
+              index === selectedProject ? 'text-gray-300 scale-105' : 'hover:text-gray-200'
+            }`}
           >
             <h2 className="m-0 mt-[40px] mb-[20px] cursor-default">
               {project.title}
