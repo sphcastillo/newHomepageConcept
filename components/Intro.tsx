@@ -7,32 +7,135 @@ import horizontalCarousel from "@/images/carouselbathtubLuna.jpg";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-
-
 function Intro() {
-  const background = useRef(null);
-  const introImage = useRef(null);
+  const background = useRef<HTMLDivElement | null>(null);
+  const introImage = useRef<HTMLDivElement | null>(null);
+  const mySection = useRef<HTMLElement | null>(null);
+  const heading = useRef<HTMLHeadingElement | null>(null);
 
   useLayoutEffect(() => {
+    if (!background.current || !introImage.current || !mySection.current || !heading.current) {
+      console.log("One or more refs are undefined:", {
+        background: background.current,
+        introImage: introImage.current,
+        mySection: mySection.current,
+        heading: heading.current,
+      });
+      return;
+    }
+
     gsap.registerPlugin(ScrollTrigger);
-    console.log("🌀 Setting up GSAP ScrollTrigger");
+    console.log("🌀 Setting up GSAP ScrollTrigger for Intro");
 
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: document.documentElement,
-        scrub: true,
-        start: "top",
-        end: "+=500px",
-      },
-    });
+    // Wait for smooth scroll to be ready
+    const setupAnimation = () => {
+      const scrollContainer = document.querySelector("[data-scroll-container]");
+      if (!scrollContainer) {
+        console.log("Scroll container not found, retrying...");
+        setTimeout(setupAnimation, 100);
+        return;
+      }
 
-    timeline
-      .from(background.current, { clipPath: `inset(15%)` })
-      .to(introImage.current, { height: "200px" }, 0);
+      // Kill any existing ScrollTrigger with the same ID
+      const existingTrigger = ScrollTrigger.getById("intro-animation");
+      if (existingTrigger) {
+        console.log("Killing existing intro ScrollTrigger");
+        existingTrigger.kill();
+      }
+
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: mySection.current,
+          scrub: true,
+          start: "top",
+          end: "+=500px",
+          scroller: "[data-scroll-container]",
+          markers: true,
+          id: "intro-animation",
+        },
+      });
+
+      timeline
+        .from(background.current, { clipPath: `inset(15%)` })
+        .to(introImage.current, { height: "200px" }, 0)
+        .from(heading.current, { opacity: 0, y: 100 }, 0);
+
+      console.log("GSAP timeline steps added for Intro");
+
+      // Return cleanup function
+      return () => {
+        if (timeline.scrollTrigger) {
+          timeline.scrollTrigger.kill();
+        }
+        timeline.kill();
+      };
+    };
+
+    // Add a small delay to ensure smooth scroll provider is ready
+    const timer = setTimeout(setupAnimation, 200);
+
+    return () => {
+      clearTimeout(timer);
+      const trigger = ScrollTrigger.getById("intro-animation");
+      if (trigger) {
+        trigger.kill();
+      }
+    };
   }, []);
 
   return (
-    <section className="w-full flex justify-center relative">
+    <section ref={mySection} className="w-full flex justify-center relative">
+      {/* Temporary debug button */}
+      <button 
+        onClick={() => {
+          console.log("Manual ScrollTrigger refresh");
+          ScrollTrigger.refresh();
+          
+          // Also try to refresh Locomotive Scroll if available
+          const scrollContainer = document.querySelector("[data-scroll-container]");
+          if (scrollContainer && (scrollContainer as any).__locomotive) {
+            (scrollContainer as any).__locomotive.update();
+          }
+        }}
+        className="fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-2 rounded"
+      >
+        Refresh ScrollTrigger
+      </button>
+      
+      {/* Debug info button */}
+      <button 
+        onClick={() => {
+          console.log("ScrollTrigger instances:", ScrollTrigger.getAll());
+          console.log("GSAP tweens:", gsap.globalTimeline.getChildren());
+        }}
+        className="fixed top-4 right-48 z-50 bg-blue-500 text-white px-4 py-2 rounded"
+      >
+        Debug Info
+      </button>
+      
+      {/* Global cleanup button */}
+      <button 
+        onClick={() => {
+          console.log("Killing all ScrollTrigger instances");
+          ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+          console.log("All ScrollTrigger instances killed");
+          
+          // Force a page refresh to recreate everything
+          window.location.reload();
+        }}
+        className="fixed top-4 right-80 z-50 bg-orange-500 text-white px-4 py-2 rounded"
+      >
+        Reset All
+      </button>
+      
+      {/* Animation status indicator */}
+      <div 
+        className="fixed top-16 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded"
+        style={{ backgroundColor: 'green' }}
+      >
+        Animation Active
+      </div>
+      
       <div
         ref={background}
         className="w-full h-[140vh] absolute filter brightness-[.95]"
@@ -61,7 +164,7 @@ function Intro() {
             className="object-cover object-top w-full h-full"
           />
         </div>
-        <h1 className="text-white text-[7vw] z-[3] text-center whitespace-nowrap">
+        <h1 ref={heading} className="text-white text-[7vw] z-[3] text-center whitespace-nowrap">
           Carousel Hair Extensions
         </h1>
       </div>
