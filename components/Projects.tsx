@@ -56,7 +56,7 @@ function Projects() {
     });
 
     // Pin the image container separately
-    ScrollTrigger.create({
+    const pinTrigger = ScrollTrigger.create({
       trigger: imageContainer.current,
       pin: true,
       start: "top-=100px",
@@ -64,7 +64,14 @@ function Projects() {
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      // Only kill the specific triggers created by this component
+      if (tl.scrollTrigger) {
+        tl.scrollTrigger.kill();
+      }
+      if (pinTrigger) {
+        pinTrigger.kill();
+      }
+      tl.kill();
     };
   }, []);
 
