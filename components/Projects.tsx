@@ -32,46 +32,37 @@ function Projects() {
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     
-    if (!imageContainer.current || !projectsList.current) return;
+    if (!imageContainer.current || !projectsList.current || !container.current) return;
 
-    // Create a timeline for the scroll animation
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: projectsList.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-        pin: false,
-        onUpdate: (self) => {
-          // Calculate which project should be visible based on scroll progress
-          const progress = self.progress;
-          const projectIndex = Math.floor(progress * (projects.length - 1));
-          const clampedIndex = Math.min(Math.max(projectIndex, 0), projects.length - 1);
-          
-          if (clampedIndex !== selectedProject) {
-            setSelectedProject(clampedIndex);
-          }
+    // Pin the image container only when it reaches the top
+    const pinTrigger = ScrollTrigger.create({
+      trigger: container.current,
+      pin: imageContainer.current,
+      start: "top top",
+      end: "+=200%",
+      pinSpacing: false, // This prevents the pin from affecting layout
+    });
+
+    // Handle project selection based on scroll
+    const projectTrigger = ScrollTrigger.create({
+      trigger: projectsList.current,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const projectIndex = Math.floor(progress * (projects.length - 1));
+        const clampedIndex = Math.min(Math.max(projectIndex, 0), projects.length - 1);
+        
+        if (clampedIndex !== selectedProject) {
+          setSelectedProject(clampedIndex);
         }
       }
     });
 
-    // Pin the image container separately
-    const pinTrigger = ScrollTrigger.create({
-      trigger: imageContainer.current,
-      pin: true,
-      start: "top-=100px",
-      end: "+=300%",
-    });
-
     return () => {
-      // Only kill the specific triggers created by this component
-      if (tl.scrollTrigger) {
-        tl.scrollTrigger.kill();
-      }
-      if (pinTrigger) {
-        pinTrigger.kill();
-      }
-      tl.kill();
+      if (pinTrigger) pinTrigger.kill();
+      if (projectTrigger) projectTrigger.kill();
     };
   }, []);
 
@@ -100,7 +91,7 @@ function Projects() {
         </div>
 
         {/* Text Columns */}
-        <div className="flex h-[500px] w-[20%]  items-start">
+        <div className="flex h-[500px] w-[20%] items-start">
           <p className="text-[1.6vw] font-bold text-white">
             Welcome to Carousel Hair Extensions— whether you're
             adding length and volume to your hair or exploring our stylish
