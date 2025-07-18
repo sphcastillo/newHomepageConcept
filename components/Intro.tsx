@@ -25,13 +25,13 @@ function Intro() {
     }
 
     gsap.registerPlugin(ScrollTrigger);
-    console.log("🌀 Setting up GSAP ScrollTrigger for Intro");
+    // console.log("🌀 Setting up GSAP ScrollTrigger for Intro");
 
     // Wait for smooth scroll to be ready
     const setupAnimation = () => {
       const scrollContainer = document.querySelector("[data-scroll-container]");
       if (!scrollContainer) {
-        console.log("Scroll container not found, retrying...");
+        // console.log("Scroll container not found, retrying...");
         setTimeout(setupAnimation, 100);
         return;
       }
@@ -39,7 +39,7 @@ function Intro() {
       // Kill any existing ScrollTrigger with the same ID
       const existingTrigger = ScrollTrigger.getById("intro-animation");
       if (existingTrigger) {
-        console.log("Killing existing intro ScrollTrigger");
+        // console.log("Killing existing intro ScrollTrigger");
         existingTrigger.kill();
       }
 
@@ -60,7 +60,7 @@ function Intro() {
         .to(introImage.current, { height: "200px" }, 0)
         .from(heading.current, { opacity: 0, y: 250 }, 0);
 
-      console.log("GSAP timeline steps added for Intro");
+      // console.log("GSAP timeline steps added for Intro");
 
       // Return cleanup function
       return () => {

@@ -28,7 +28,7 @@ function AnimatedText({ children, index }: { children: React.ReactNode; index: n
       const setupAnimation = () => {
         const scrollContainer = document.querySelector("[data-scroll-container]");
         if (!scrollContainer) {
-          console.log("Scroll container not found, retrying...");
+          // console.log("Scroll container not found, retrying...");
           setTimeout(setupAnimation, 100);
           return;
         }
@@ -36,12 +36,12 @@ function AnimatedText({ children, index }: { children: React.ReactNode; index: n
         // Kill any existing ScrollTrigger with the same ID
         const existingTrigger = ScrollTrigger.getById(`description-text-${index}`);
         if (existingTrigger) {
-          console.log(`Killing existing description ScrollTrigger ${index}`);
+          // console.log(`Killing existing description ScrollTrigger ${index}`);
           existingTrigger.kill();
         }
         
         if (!text.current) {
-          console.log("Text ref is null");
+          // console.log("Text ref is null");
           return;
         }
 
@@ -62,7 +62,7 @@ function AnimatedText({ children, index }: { children: React.ReactNode; index: n
           ease: "power3.Out",
         });
 
-        console.log(`Description text ${index} animation set up`);
+        // console.log(`Description text ${index} animation set up`);
 
         // Return cleanup function
         return () => {

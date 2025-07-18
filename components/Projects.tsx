@@ -28,19 +28,77 @@ function Projects() {
   const container = useRef<HTMLDivElement | null>(null);
   const imageContainer = useRef<HTMLDivElement | null>(null);
   const projectsList = useRef<HTMLDivElement | null>(null);
+  const textColumn1 = useRef<HTMLDivElement | null>(null);
+  const textColumn2 = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
+    console.log("🔧 Projects useLayoutEffect started");
+    console.log("🔧 Refs check:", {
+      container: container.current,
+      imageContainer: imageContainer.current,
+      projectsList: projectsList.current,
+      textColumn1: textColumn1.current,
+      textColumn2: textColumn2.current
+    });
+
     gsap.registerPlugin(ScrollTrigger);
     
-    if (!imageContainer.current || !projectsList.current || !container.current) return;
+    if (!imageContainer.current || !projectsList.current || !container.current || !textColumn1.current || !textColumn2.current) {
+      console.log("❌ Missing refs, returning early");
+      return;
+    }
 
-    // Pin the image container only when it reaches the top
+    console.log("✅ All refs found, creating animations");
+
+    // Check if smooth scroll is available
+    const scrollContainer = document.querySelector("[data-scroll-container]");
+    console.log("🔍 Smooth scroll container found:", scrollContainer);
+
+    // Pin the image container
     const pinTrigger = ScrollTrigger.create({
       trigger: container.current,
-      pin: imageContainer.current,
       start: "top top",
       end: "+=200%",
-      pinSpacing: false, // This prevents the pin from affecting layout
+      pin: imageContainer.current,
+      pinSpacing: true,
+      scroller: scrollContainer || undefined,
+      onUpdate: (self) => {
+        console.log("📌 Pin trigger progress:", self.progress);
+      }
+    });
+
+    // Animate text columns to move up
+    const textAnimation = ScrollTrigger.create({
+      trigger: container.current,
+      start: "top top",
+      end: "+=150%",
+      scrub: 1,
+      scroller: scrollContainer || undefined,
+      onUpdate: (self) => {
+        console.log("📊 Text animation progress:", self.progress);
+        if (textColumn1.current && textColumn2.current) {
+          gsap.set([textColumn1.current, textColumn2.current], {
+            y: self.progress * -200
+          });
+        }
+      }
+    });
+
+    // Animate projects list to move up
+    const projectsAnimation = ScrollTrigger.create({
+      trigger: projectsList.current,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1,
+      scroller: scrollContainer || undefined,
+      onUpdate: (self) => {
+        console.log("📊 Projects animation progress:", self.progress);
+        if (projectsList.current) {
+          gsap.set(projectsList.current, {
+            y: self.progress * -300
+          });
+        }
+      }
     });
 
     // Handle project selection based on scroll
@@ -49,22 +107,41 @@ function Projects() {
       start: "top bottom",
       end: "bottom top",
       scrub: 1,
+      scroller: scrollContainer || undefined,
       onUpdate: (self) => {
         const progress = self.progress;
+        console.log("📊 Project trigger progress:", progress);
         const projectIndex = Math.floor(progress * (projects.length - 1));
         const clampedIndex = Math.min(Math.max(projectIndex, 0), projects.length - 1);
         
         if (clampedIndex !== selectedProject) {
+          console.log("🔄 Changing project from", selectedProject, "to", clampedIndex);
           setSelectedProject(clampedIndex);
         }
       }
     });
 
+    console.log("📋 All triggers created:", { pinTrigger, textAnimation, projectsAnimation, projectTrigger });
+
+    // Log all ScrollTrigger instances
+    console.log("📋 All ScrollTrigger instances:", ScrollTrigger.getAll());
+
+    // Force a refresh after a short delay
+    setTimeout(() => {
+      console.log("🔄 Forcing ScrollTrigger refresh");
+      ScrollTrigger.refresh();
+    }, 500);
+
     return () => {
+      console.log("🧹 Cleaning up Projects animations");
       if (pinTrigger) pinTrigger.kill();
+      if (textAnimation) textAnimation.kill();
+      if (projectsAnimation) projectsAnimation.kill();
       if (projectTrigger) projectTrigger.kill();
     };
   }, []);
+
+  console.log("🎨 Projects component rendering, selectedProject:", selectedProject);
 
   return (
     <div
@@ -81,9 +158,8 @@ function Projects() {
           <Image
             src={projects[selectedProject].src}
             alt="project image"
-            fill
             priority
-            className="object-cover transition-all duration-700 ease-out"
+            className="object-contain transition-all duration-700 ease-out h-full"
             style={{
               transform: `translateY(${selectedProject * -30}px) scale(1.05)`
             }}
@@ -91,7 +167,7 @@ function Projects() {
         </div>
 
         {/* Text Columns */}
-        <div className="flex h-[500px] w-[20%] items-start">
+        <div ref={textColumn1} className="flex h-[500px] w-[20%] items-start">
           <p className="text-[1.6vw] font-bold text-white">
             Welcome to Carousel Hair Extensions— whether you're
             adding length and volume to your hair or exploring our stylish
@@ -99,7 +175,7 @@ function Projects() {
             things beauty.
           </p>
         </div>
-        <div className="flex h-[500px] w-[20%] items-end">
+        <div ref={textColumn2} className="flex h-[500px] w-[20%] items-end">
           <p className="text-[1.6vw] font-bold text-white">
             Carousel Hair Extensions offers a handpicked selection of premium
             extensions in a variety of lengths, textures, and colors, all
@@ -108,12 +184,15 @@ function Projects() {
         </div>
       </div>
 
-      {/* Project List Below */}
+      {/* Project List */}
       <div ref={projectsList} className="flex flex-col relative mt-[200px]">
         {projects.map((project, index) => (
           <div
             key={index}
-            onMouseOver={() => setSelectedProject(index)}
+            onMouseOver={() => {
+              console.log("🖱️ Hovering over project:", index);
+              setSelectedProject(index);
+            }}
             className={`w-full text-white flex justify-end border-b border-white uppercase text-[3vw] transition-all duration-500 ${
               index === selectedProject ? 'text-gray-300 scale-105' : 'hover:text-gray-200'
             }`}

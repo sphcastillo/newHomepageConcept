@@ -58,7 +58,7 @@ export default function SmoothScrollProvider({
         ScrollTrigger.refresh();
         if (locomotiveScroll) locomotiveScroll.update();
         setIsReady(true);
-        console.log("🚀 Smooth scroll and ScrollTrigger ready!");
+        // console.log("🚀 Smooth scroll and ScrollTrigger ready!");
       }, 100);
 
       window.addEventListener("load", () => {
