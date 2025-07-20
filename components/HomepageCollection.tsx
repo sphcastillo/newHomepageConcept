@@ -7,14 +7,12 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import product1 from "@/images/products/puplecolor.jpg";
-import product2 from "@/images/products/blondecolor.jpg";
-import product3 from "@/images/breannablue3.jpg";
 import { Slider } from "@/components/ui/slider";
 import { useEffect, useState } from "react";
 import { IoIosArrowDropright } from "react-icons/io";
 import { IoIosArrowDropleft } from "react-icons/io";
 import { motion } from "framer-motion";
+import { products } from "@/data/HomepageCollectionData";
 // import { pd_medium, pd_regular_italic } from "@/fonts/fonts";
 // import { Albert_Sans, Antic_Didone } from "next/font/google";
 
@@ -26,46 +24,7 @@ const bgGradients = [
   "bg-gradient-to-r from-[#4dd8ae] to-[#b5ddd4]",
 ];
 
-const products = [
-  {
-    id: 1,
-    title: "Product 1",
-    price: 100,
-    image: product1,
-  },
-  {
-    id: 2,
-    title: "Product 2",
-    price: 200,
-    image: product2,
-  },
-  {
-    id: 3,
-    title: "Product 3",
-    price: 300,
-    image: product1,
-  },
-  {
-    id: 4,
-    title: "Product 1",
-    price: 100,
-    image: product2,
-  },
-  {
-    id: 5,
-    title: "Product 2",
-    price: 200,
-    image: product1,
-  },
-  {
-    id: 6,
-    title: "Product 3",
-    price: 300,
-    image: product2,
-  },
-];
 
-const colors = ["#FFBEDF", "#d5e4fc", "#b5ddd4", "#ffdbed"];
 
 export default function HomepageCollection() {
 
