@@ -19,11 +19,11 @@ import { motion } from "framer-motion";
 // import { Albert_Sans, Antic_Didone } from "next/font/google";
 
 const bgGradients = [
-  "bg-gradient-to-b from-[#4dd8ae] via-purple-500 to-purple-300",
-  "bg-gradient-to-l from-[#4dd8ae] via-amber-500 to-amber-300",
-  "bg-gradient-to-t from-[#4dd8ae] via-pink-500 to-pink-300",
-  "bg-gradient-to-r from-[#4dd8ae] via-orange-500 to-orange-300",
-  "bg-gradient-to-r from-[#4dd8ae] via-green-500 to-green-300",
+  "bg-gradient-to-b from-[#4dd8ae] to-[#b5ddd4]",
+  "bg-gradient-to-l from-[#4dd8ae] to-[#b5ddd4]",
+  "bg-gradient-to-t from-[#4dd8ae] to-[#b5ddd4]",
+  "bg-gradient-to-r from-[#4dd8ae] to-[#b5ddd4]",
+  "bg-gradient-to-r from-[#4dd8ae] to-[#b5ddd4]",
 ];
 
 const products = [
@@ -107,10 +107,6 @@ export default function HomepageCollection() {
     if (!api) return;
     api.scrollNext();
   };
-
-
-
-
 
 
   return (

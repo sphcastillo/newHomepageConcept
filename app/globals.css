@@ -1,10 +1,2 @@
-/* @import "locomotive-scroll/dist/locomotive-scroll.css"; */
-
 @import "tailwindcss";
 @import "tw-animate-css";
-
-
-/* [data-scroll-container] {
-    overflow: auto;
-  } */
-
