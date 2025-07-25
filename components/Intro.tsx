@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import verticalCarousel from "@/images/breannaCarouselCreator.jpg";
 import horizontalCarousel from "@/images/carouselbathtubLuna.jpg";
+import mobileBackground from "@/public/images/homepage/lunaMobileBathtub.png";
 import { setupIntroAnimation } from "@/utlils/useIntroAnimation";
 
 export default function Intro() {
@@ -13,39 +14,50 @@ export default function Intro() {
   const mySection = useRef<HTMLElement | null>(null);
   const heading = useRef<HTMLHeadingElement | null>(null);
 
-  useGSAP(() => {
-    if (
-      !background.current ||
-      !introImage.current ||
-      !mySection.current ||
-      !heading.current
-    )
-      return;
+  useGSAP(
+    () => {
+      if (
+        !background.current ||
+        !introImage.current ||
+        !mySection.current ||
+        !heading.current
+      )
+        return;
 
-    setupIntroAnimation({
-      section: mySection.current,
-      background: background.current,
-      introImage: introImage.current,
-      heading: heading.current,
-    });
-  }, { scope: mySection });
+      setupIntroAnimation({
+        section: mySection.current,
+        background: background.current,
+        introImage: introImage.current,
+        heading: heading.current,
+      });
+    },
+    { scope: mySection }
+  );
 
   return (
     <section
       id="intro"
       ref={mySection}
-      className="w-full h-[60vh] sm:h-[73vh] md:h-[80vh] lg:h-[85vh] xl:h-[99vh] flex justify-center relative"
+      className="w-full h-[90vh] sm:h-[73vh] md:h-[80vh] lg:h-[85vh] xl:h-[99vh] flex justify-center relative"
     >
       <div
         ref={background}
-        className="w-full h-[60vh] sm:h-[73vh] md:h-[80vh] lg:h-[85vh] xl:h-[99vh] absolute filter brightness-[.95]"
+        className="w-full h-[90vh] sm:h-[73vh] md:h-[80vh] lg:h-[85vh] xl:h-[99vh] absolute filter brightness-[.95]"
       >
+        <Image
+          src={mobileBackground}
+          alt="Mobile background"
+          width={1080}
+          height={1920}
+          className="object-cover w-full h-full block sm:hidden transition-opacity duration-500"
+          priority
+        />
         <Image
           src={horizontalCarousel}
           alt="background image"
           width={3041}
           height={2220}
-          className="object-cover w-full h-full"
+          className="object-contain w-full h-full block sm:hidden transition-opacity duration-500"
           priority
         />
       </div>
