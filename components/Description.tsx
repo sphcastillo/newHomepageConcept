@@ -15,7 +15,7 @@ export default function Description() {
   return (
     <div
       id="description"
-      className="relative text-white sm:text-[4vw] md:text-[4vw] lg:text-[4.2vw] xl:text-[3.3vw] uppercase sm:ml-[5vw] md:ml-[6vw] lg:ml-[4vw] xl:ml-[5vw] space-y-[4vh] sm:-mt-[9.7vh] md:-mt-[10vh] xl:-mt-[14.3vh]"
+      className="relative text-white text-[17px] sm:text-[4vw] md:text-[4vw] lg:text-[4.2vw] xl:text-[3.3vw] uppercase ml-[3vw] sm:ml-[5vw] md:ml-[6vw] lg:ml-[4vw] xl:ml-[5vw] space-y-[4vh] -mt-[17.5vh] sm:-mt-[9.7vh] md:-mt-[10vh] xl:-mt-[14.3vh]"
     >
       {phrases.map((phrase, index) => {
         return (

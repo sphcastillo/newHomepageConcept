@@ -37,7 +37,7 @@ export function setupIntroAnimation({
         isXl: boolean;
       };
 
-      const createTimeline = (scrollEnd: string) => {
+      const createTimeline = (scrollEnd: string, animDuration: number) => {
         gsap
           .timeline({
             scrollTrigger: {
@@ -52,7 +52,7 @@ export function setupIntroAnimation({
           .fromTo(
             background,
             { clipPath: "inset(54%)" },
-            { clipPath: "inset(0%)", ease: "sine.inOut", duration: 1 }
+            { clipPath: "inset(0%)", ease: "sine.inOut", duration: animDuration }
           )
           .fromTo(
             introImage,
@@ -73,9 +73,9 @@ export function setupIntroAnimation({
           );
       };
 
-      if (conditions.isXxs || conditions.isXs) createTimeline("+=100px");
-      if (conditions.isSm) createTimeline("+=800px");
-      if (conditions.isMd || conditions.isLg || conditions.isXl) createTimeline("+=1000px");
+      if (conditions.isXxs || conditions.isXs) createTimeline("+=100vh", 3);
+      if (conditions.isSm) createTimeline("+=800px", 1);
+      if (conditions.isMd || conditions.isLg || conditions.isXl) createTimeline("+=1000px", 1);
     }
   );
 }
