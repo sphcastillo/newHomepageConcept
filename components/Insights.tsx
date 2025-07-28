@@ -2,85 +2,79 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { projects } from "@/data/ProjectsData";
-import gsap from "gsap";
+import { InsightsAnimation } from "@/utlils/animations/useInsightAnimation";
 import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Insights() {
   const container = useRef<HTMLDivElement>(null);
   const imageContainer = useRef<HTMLDivElement>(null);
+  const projectList = useRef<HTMLDivElement>(null);
+
   const [selectedProject, setSelectedProject] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useGSAP(
     () => {
-      console.log("useGSAP running - imageLoaded:", imageLoaded);
-      console.log("imageContainer.current:", !!imageContainer.current);
-      console.log("container.current:", !!container.current);
-      
-      if (imageContainer.current && container.current && imageLoaded) {
-        console.log("Creating ScrollTrigger - imageLoaded:", imageLoaded);
-        console.log("✅ ScrollTrigger created successfully");
-        
-        ScrollTrigger.create({
-          trigger: imageContainer.current,
-          pin: true,
-          start: "top-=100px",
-          end: "bottom top",
+      if (container.current && imageContainer.current && imageLoaded) {
+        return InsightsAnimation({
+          container: container.current,
+          imageContainer: imageContainer.current,
         });
-      } else if (imageContainer.current && container.current && !imageLoaded) {
-        console.log("⏳ Waiting for image to load before creating ScrollTrigger...");
       }
     },
     { scope: container, dependencies: [imageLoaded] }
   );
 
-  const handleImageLoad = () => {
-    console.log("🖼️ Image loaded successfully");
-    setImageLoaded(true);
-  };
-
-  const handleImageError = () => {
-    console.error("❌ Image failed to load");
-  };
-
   return (
-    <div ref={container} className="relative text-white font-bold p-[10%]">
-      <div className="flex justify-between gap-[5%]">
-        <div
-          ref={imageContainer}
-          className="w-[40%] h-[600px] relative shrink-0"
-        >
-          <Image
-            src={projects[selectedProject].src}
-            width={500}
-            height={750}
-            alt="project image"
-            priority={true}
-            className="object-cover h-full w-full"
-            onLoad={handleImageLoad}
-            onError={handleImageError}
-          />
+    <div
+      ref={container}
+      className="relative text-white font-bold p-[5%] md:p-[10%]"
+    >
+      <div className="flex flex-col md:flex-row justify-between gap-[5%] items-center md:items-start">
+        {/* Image wrapper for centering */}
+        <div className="w-full md:w-[40%] flex justify-center">
+          <div
+            ref={imageContainer}
+            className="w-full max-w-md h-[500px] md:h-[600px] flex items-center justify-center"
+          >
+            <Image
+              src={projects[selectedProject].src}
+              width={500}
+              height={750}
+              alt="project image"
+              priority
+              className="object-contain w-full h-full"
+              onLoad={() => setImageLoaded(true)}
+              onError={() => console.error("❌ Image failed to load")}
+            />
+          </div>
         </div>
-        <div className="w-[20%] text-[1.6vw] flex h-[100%]">
-          <p>
-            The flora is characterized by the presence of high elevation
-            wetland, as well as yellow straw, broom sedge, tola de agua and tola
-            amaia.
-          </p>
-        </div>
-        <div className="w-[20%] text-[1.6vw] flex h-[100%] items-end">
-          <p>
-            Some, like the southern viscacha, vicuña and Darwins rhea, are
-            classified as endangered species. Others, such as Andean goose,
-            horned coot, Andean gull, puna tinamou and the three flamingo
-            species inhabiting in Chile (Andean flamingo, Chilean flamingo, and
-            Jamess flamingo) are considered vulnerable.
-          </p>
+
+        {/* Text Columns */}
+        <div className="w-full md:w-[40%] flex flex-col lg:flex-row gap-8 mt-8 md:mt-0">
+          <div className="w-full lg:w-[50%] flex">
+            <p className="text-[18px] md:text-[1.4vw]">
+              Welcome to Carousel Hair Extensions! Whether you’re adding length
+              or volume to your hair, this is your destination for all things
+              beauty. Carousel Hair Extensions offers a handpicked selection of
+              premium extensions in a variety of lengths, textures, and colors,
+              all designed to help you transform your look with ease and
+              confidence.
+            </p>
+          </div>
+          <div className="w-full lg:w-[50%] flex md:items-start">
+            <p className="text-[18px] md:text-[1.4vw]">
+              Inspired by a love for all things vintage, Breanna has curated a
+              space that blends old-school charm with the latest hair trends.
+              The result is a unique aesthetic that’s both playful and
+              sophisticated—where timeless style meets modern glamour in every
+              detail of your experience.
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-col relative mt-[200px]">
+      <div ref={projectList} className="flex flex-col relative mt-[100px] md:mt-[200px]">
         {projects.map((project, index) => {
           return (
             <div
@@ -88,15 +82,16 @@ export default function Insights() {
               onMouseOver={() => {
                 setSelectedProject(index);
               }}
-              className='"w-full text-white flex justify-end border-b border-white uppercase text-[3vw]"'
+              className="w-full text-white flex justify-end border-b border-white uppercase "
             >
-              <h2 className="m-0 mt-[40px] mb-[20px] cursor-default">
+              <h2 className="m-0 mt-[40px] mb-[20px] cursor-default text-[18px] md:text-[2.4vw]">
                 {project.title}
               </h2>
             </div>
           );
         })}
       </div>
+      <div className="h-[20vh] md:h-[10vh]" />
     </div>
   );
 }

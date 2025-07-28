@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import verticalCarousel from "@/images/breannaCarouselCreator.jpg";
 import backgroundIntro from "@/images/homepage/desktopBackgroundIntro.png";
 import mobileBackground from "@/images/homepage/lunaMobileBathtub.png";
-import { setupIntroAnimation } from "@/utlils/useIntroAnimation";
+import { IntroAnimation } from "@/utlils/animations/useIntroAnimation";
 
 export default function Intro() {
   const background = useRef<HTMLDivElement | null>(null);
@@ -24,7 +24,7 @@ export default function Intro() {
       )
         return;
 
-      setupIntroAnimation({
+      IntroAnimation({
         section: mySection.current,
         background: background.current,
         introImage: introImage.current,

@@ -7,11 +7,12 @@ import image6 from "@/images/breannatub2.jpg";
 import image7 from "@/images/oldHollywoodGlamour.png";
 
 export const projects = [
-  { title: "Salar de Atacama", src: image1 },
-  { title: "Valle de la luna", src: image2 },
-  { title: "Miscanti Lake", src: image3 },
-  { title: "Miniques Lagoons", src: image4 },
-  { title: "Salar de Atacama", src: image5 },
-  { title: "Valle de la luna", src: image6 },
-  { title: "Miscanti Lake", src: image7 },
+  { title: "Vintage beauty, reimagined.", src: image1 },
+  { title: "Effortless glam, every day.", src: image2 },
+  { title: "Rooted in Passion.", src: image3 },
+  { title: "Luxury length, zero fuss.", src: image7 },
+  { title: "Hair that moves with you.", src: image4 },
+  { title: "Confidence in every strand.", src: image5 },
+  { title: "Made to express you.", src: image6 },
+
 ];

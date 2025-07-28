@@ -130,12 +130,13 @@ export default function SparkleBackground() {
       ))}
 
       {/* ✨ Scroll prompt */}
-      <div className="scroll-prompt absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center text-center">
-        <span className="font-cursive text-lg font-bold text-[#FF69B4] tracking-wider">
+      <div className="scroll-prompt absolute left-1/2 -translate-x-1/2 z-10 flex flex-col items-center text-center top-[65vh] md:top-[75vh]" >
+
+        <span className="font-cursive text-xl font-bold text-white tracking-wider">
         Take a twirl below
         </span>
         <svg
-          className="w-5 h-5 text-[#FF69B4] mt-1 animate-bounce"
+          className="w-5 h-5 sm:w-7 sm:h-7 text-white mt-1 animate-bounce"
           fill="currentColor"
           viewBox="0 0 20 20"
         >

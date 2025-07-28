@@ -12,6 +12,7 @@ import Header from "@/components/Header";
 import SparkleBackground from "@/components/SparkleBackground";
 import { useRef } from "react";
 
+
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function Home() {
@@ -50,6 +51,9 @@ export default function Home() {
           <div className="pt-40 ht-[40vh] sm:pt-20 sm:h-[80vh]"></div>
           <Insights />
         </section>
+
+        <TextOpacity />
+        <CarouselInMotion />
       </div>
     </>
   );
