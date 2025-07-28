@@ -19,6 +19,7 @@ export default function Insights() {
         return InsightsAnimation({
           container: container.current,
           imageContainer: imageContainer.current,
+          projectList: projectList.current!,
         });
       }
     },
@@ -74,7 +75,7 @@ export default function Insights() {
         </div>
       </div>
 
-      <div ref={projectList} className="flex flex-col relative mt-[100px] md:mt-[200px]">
+      <div ref={projectList}className="flex flex-col relative mt-[100px] md:mt-[200px]">
         {projects.map((project, index) => {
           return (
             <div
