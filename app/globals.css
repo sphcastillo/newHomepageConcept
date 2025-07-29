@@ -2,17 +2,16 @@
 @import "tw-animate-css";
 
 @keyframes blob {
-    0% {
-      transform: translate(0, 0);
-    }
-    100% {
-      transform: translate(20px, 15px);
-    }
+  0% {
+    transform: translate(0, 0);
   }
-  .animate-blob {
-    animation: blob 3s infinite ease-in-out alternate;
+  100% {
+    transform: translate(20px, 15px);
   }
-  .animation-delay-200 {
-    animation-delay: 0.2s;
-  }
-  
+}
+.animate-blob {
+  animation: blob 3s infinite ease-in-out alternate;
+}
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}

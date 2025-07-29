@@ -17,9 +17,17 @@ export default function SparkleBackground() {
     "#FFDDE2", "#FFD1DC", "#FFAACD", "#FBB3CE", "#FF8DAA", "#F9C1D9", "#FFBED1"
   ];
 
-  const sparkleCount = 120;
+
 
   useEffect(() => {
+    const width = window.innerWidth;
+    let sparkleCount = 120;
+    if (width < 640) {
+      sparkleCount = 72;
+    } else if (width < 768) {
+      sparkleCount = 90;
+    }
+    
     const cols = Math.ceil(Math.sqrt(sparkleCount));
     const rows = Math.ceil(sparkleCount / cols);
     const jitter = 0.9;

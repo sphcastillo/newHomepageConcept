@@ -29,7 +29,8 @@ export default function Insights() {
   return (
     <div
       ref={container}
-      className="relative text-white font-bold p-[5%] md:p-[10%]"
+      id="insights-section"
+      className="relative text-white font-bold p-[5%] md:p-[10%] min-h-[260vh] sm:min-h-[230vh]"
     >
       <div className="flex flex-col md:flex-row justify-between gap-[5%] items-center md:items-start">
         {/* Image wrapper for centering */}
@@ -44,7 +45,7 @@ export default function Insights() {
               height={750}
               alt="project image"
               priority
-              className="object-contain w-full h-full"
+              className="object-contain w-full h-full z-10 opacity-70 md:opacity-100"
               onLoad={() => setImageLoaded(true)}
               onError={() => console.error("❌ Image failed to load")}
             />
@@ -52,9 +53,9 @@ export default function Insights() {
         </div>
 
         {/* Text Columns */}
-        <div className="w-full md:w-[40%] flex flex-col lg:flex-row gap-8 mt-8 md:mt-0">
+        <div className="w-full md:w-[40%] flex flex-col lg:flex-row gap-8 mt-8 md:mt-0 z-40">
           <div className="w-full lg:w-[50%] flex">
-            <p className="text-[18px] md:text-[1.4vw]">
+            <p className="text-[18px] md:text-[1.4vw] text-center md:text-left text-pretty">
               Welcome to Carousel Hair Extensions! Whether you’re adding length
               or volume to your hair, this is your destination for all things
               beauty. Carousel Hair Extensions offers a handpicked selection of
@@ -64,7 +65,7 @@ export default function Insights() {
             </p>
           </div>
           <div className="w-full lg:w-[50%] flex md:items-start">
-            <p className="text-[18px] md:text-[1.4vw]">
+            <p className="text-[18px] md:text-[1.4vw] text-center md:text-left text-pretty">
               Inspired by a love for all things vintage, Breanna has curated a
               space that blends old-school charm with the latest hair trends.
               The result is a unique aesthetic that’s both playful and
@@ -92,7 +93,7 @@ export default function Insights() {
           );
         })}
       </div>
-      <div className="h-[20vh] md:h-[10vh]" />
+      {/* <div className="h-[20vh] md:h-[10vh]" /> */}
     </div>
   );
 }

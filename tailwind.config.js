@@ -5,9 +5,7 @@ module.exports = {
       "./components/**/*.{js,ts,jsx,tsx}",
     ],
     safelist: [
-      {
-        pattern: /^xs:/,
-      },
+      { pattern: /^xs:.*/ },
     ],
     theme: {
       extend: {

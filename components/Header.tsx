@@ -1,64 +1,37 @@
 "use client";
+
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger);
 
 function Header() {
   const headerRef = useRef<HTMLDivElement>(null);
-  const navItemsRef = useRef<HTMLLIElement[]>([]);
 
-  useEffect(() => {
-    const headerEl = headerRef.current;
-    if (!headerEl) return;
+  useGSAP(() => {
+    const wordSpans = headerRef.current?.querySelectorAll(".word span");
 
-    // Glow & slide animation on header
+    if (!wordSpans || wordSpans.length === 0) return;
+
     gsap.fromTo(
-      headerEl,
+      wordSpans,
       {
+        clipPath: "inset(100% 0 0 0)",
         opacity: 0,
-        y: -40,
-        boxShadow: "0 0 0px rgba(255, 105, 180, 0)", // no glow at start
       },
       {
+        clipPath: "inset(0% 0 0 0)",
         opacity: 1,
-        y: 0,
-        boxShadow: "0 0 15px rgba(255, 105, 180, 0.4)", // pink glow
-        duration: 1.2,
         ease: "power2.out",
-        scrollTrigger: {
-          trigger: "#sparkle-overture",
-          start: "bottom bottom",
-          toggleActions: "play none none none",
-        },
-        onComplete: () => {
-          // optional: remove glow after a few seconds
-          gsap.to(headerEl, {
-            boxShadow: "0 0 0px rgba(255, 105, 180, 0)",
-            duration: 2,
-            ease: "power2.out",
-            delay: 1,
-          });
-        },
-      }
-    );
-
-    // Stagger nav item fade-ins
-    gsap.fromTo(
-      navItemsRef.current,
-      { opacity: 0, y: -10 },
-      {
-        opacity: 1,
-        y: 0,
+        duration: 1,
         stagger: 0.2,
-        delay: 1, // start just after header appears
-        duration: 0.6,
-        ease: "power2.out",
         scrollTrigger: {
-          trigger: "#sparkle-overture",
-          start: "bottom bottom",
+          trigger: "#sparkle-overture", // 👈 This section
+          start: "bottom bottom",       // when the bottom of sparkle hits the bottom of viewport
           toggleActions: "play none none none",
+          once: true,
+          // markers: true,
         },
       }
     );
@@ -69,23 +42,27 @@ function Header() {
       ref={headerRef}
       className="left-0 w-full h-16 bg-transparent z-50 p-4 flex justify-between items-center"
     >
-      <div className="flex justify-center items-center text-white font-bold tracking-widest">
-        Carousel Hair Extensions
+      <div className="flex justify-center items-center text-white font-bold tracking-widest overflow-hidden gap-2">
+        {["Carousel", "Hair", "Extensions"].map((word, i) => (
+          <span
+            key={i}
+            className="word inline-block overflow-hidden"
+            style={{ display: "inline-block" }}
+          >
+            <span className="inline-block">{word}</span>
+          </span>
+        ))}
       </div>
-      <div>
-        <ul className="flex gap-4 text-white font-light cursor-pointer">
-          {["Home", "About", "Contact"].map((label, i) => (
-            <li
-              key={label}
-              ref={(el) => {
-                if (el) navItemsRef.current[i] = el;
-              }}
-              className="opacity-0 hover:underline underline-offset-4 decoration-pink-400"
-            >
-              {label}
-            </li>
-          ))}
-        </ul>
+      <div className="flex justify-center items-center text-white font-bold tracking-widest overflow-hidden gap-2">
+        {["Home", "About", "Contact"].map((word, i) => (
+          <span
+            key={i}
+            className="word inline-block overflow-hidden"
+            style={{ display: "inline-block" }}
+          >
+            <span className="inline-block">{word}</span>
+          </span>
+        ))}
       </div>
     </div>
   );

@@ -10,13 +10,13 @@ import CarouselInMotion from "@/components/CarouselInMotion";
 import TextOpacity from "@/components/textOpacity/TextOpacity";
 import Header from "@/components/Header";
 import SparkleBackground from "@/components/SparkleBackground";
-import { useRef } from "react";
-
+import { useRef, useState } from "react";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function Home() {
   const sparkleSectionRef = useRef<HTMLDivElement>(null);
+  const [hideSparkle, setHideSparkle] = useState(false);
 
   useGSAP(() => {
     gsap.to("#sparkle-overture", {
@@ -25,6 +25,9 @@ export default function Home() {
         start: "top top",
         end: "bottom top",
         scrub: true,
+        onLeave: () => {
+          setHideSparkle(true);
+        },
       },
       opacity: 0,
       y: -100,
@@ -35,18 +38,26 @@ export default function Home() {
   return (
     <>
       <div className="bg-[linear-gradient(to_top,_#ff9a9e_0%,_#fecfef_99%,_#fecfef_100%)]">
-        <section
-          id="sparkle-overture"
-          ref={sparkleSectionRef}
-          className="relative h-screen overflow-hidden"
-        >
-          <SparkleBackground />
-        </section>
+        {!hideSparkle && (
+          <section
+            id="sparkle-overture"
+            ref={sparkleSectionRef}
+            className="relative h-screen overflow-hidden"
+          >
+            <SparkleBackground />
+          </section>
+        )}
 
         <section id="carousel-overture" className="relative z-10">
-          <Header />
-          <Intro />
-          <Description />
+          <section id="intro=section" className="relative">
+            <div className="sticky top-0 z-50">
+              <Header />
+            </div>
+            <Intro />
+            <Description />
+          </section>
+
+
 
           <div className="pt-40 ht-[40vh] sm:pt-20 sm:h-[80vh]"></div>
           <Insights />
