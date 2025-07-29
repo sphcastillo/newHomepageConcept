@@ -49,13 +49,13 @@ export default function Home() {
         )}
 
         <section id="carousel-overture" className="relative z-10">
-          <section id="intro=section" className="relative">
-            <div className="sticky top-0 z-50">
+
+            {/* <div className="sticky top-0 z-50">
               <Header />
-            </div>
+            </div> */}
             <Intro />
             <Description />
-          </section>
+
 
 
 
